@@ -1,0 +1,65 @@
+.container
+    width: 100%
+    margin: 0 auto
+    padding: 1rem
+.jobsList
+    width: 100%
+    &__item
+        display: flex
+        background: white
+        box-shadow: 2px 1px 7px rgba(0, 0, 0, 0.08), 0px 2px 1px -1px rgba(0, 0, 0, 0.04), 0px 1px 3px rgba(0, 0, 0, 0.12)
+        border-radius: 8px
+        margin-bottom: 8px
+        padding: 24px 16px
+        &-photo
+            width: 85px
+            margin-right: 26px
+            img
+                width: 85px
+                height: 85px
+                border-radius: 50%
+        &-textbox
+            width: 940px
+            margin-right: 22px
+            &-title
+                margin-bottom: 8px
+                color: #3A4562
+                font-weight: 700
+                font-size: 20px
+                line-height: 25px
+                letter-spacing: -0.625px
+            &-subtitle
+                margin-bottom: 8px
+                font-size: 16px
+                line-height: 25px
+                letter-spacing: 0.23619px
+                color: #878D9D
+            &-place
+                display: flex
+                column-gap: 5px
+                font-size: 16px
+                line-height: 25px
+                letter-spacing: 0.23619px
+                color: #878D9D
+        &-raiting
+            width: 90px
+            margin-right: 22px
+            display: flex
+            justify-content: center
+            align-items: center
+            cursor: pointer
+        &-date
+            width: 148px
+            font-size: 16px
+            line-height: 25px
+            display: flex
+            align-items: flex-end
+            text-align: right
+            letter-spacing: 0.23619px
+            color: #878D9D
+            position: relative
+            &-icon
+                position: absolute
+                top: 0
+                right: 0
+                cursor: pointer
