@@ -12,12 +12,36 @@
         width: 100%
         margin-bottom: 25px
         padding-bottom: 9px
-    &-left
-        width: 712px
+    &__left
+        width: 752px
         margin-right: 115px
-    &-right
+    &__right
         width: 402px
-        background: grey
+        // background: grey
+        &-infocard
+            width: 100%
+            padding: 30px 63px
+            background: #2A3047
+            border-radius: 8px
+            color: #E7EAF0
+            &-name
+                font-weight: 700
+                font-size: 20px
+                line-height: 25px
+                letter-spacing: -0.625px
+                margin-bottom: 8px
+            &-address, &-phone, &-email
+                font-family: 'Roboto'
+                font-weight: 400
+                font-size: 18px
+                line-height: 24px
+                letter-spacing: -0.5625px
+                color: #E8EBF3
+                font-stretch: 100
+            &-address
+                margin-bottom: 8px
+                span
+                    margin-left: 11px
     &__top
         display: flex
         align-items: center
@@ -128,3 +152,8 @@
                 color: #988B49
         &-images
             margin-bottom: 89px
+.loading
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
