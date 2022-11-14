@@ -18,51 +18,59 @@
                 width: 85px
                 height: 85px
                 border-radius: 50%
-        &-textbox
-            width: 940px
-            margin-right: 22px
-            &-title
-                margin-bottom: 8px
-                color: #3A4562
-                font-weight: 700
-                font-size: 20px
-                line-height: 25px
-                letter-spacing: -0.625px
-            &-subtitle
-                margin-bottom: 8px
-                font-size: 16px
-                line-height: 25px
-                letter-spacing: 0.23619px
-                color: #878D9D
-            &-place
+        &-main
+            display: flex
+            flex-wrap: wrap
+            justify-content: space-between
+            width: 100%
+            // background: red
+            &-textbox
+                width: 880px
+                // background: green
+                margin-right: 22px
+                &-title
+                    margin-bottom: 8px
+                    color: #3A4562
+                    font-weight: 700
+                    font-size: 20px
+                    line-height: 25px
+                    letter-spacing: -0.625px
+                &-subtitle
+                    margin-bottom: 8px
+                    font-size: 16px
+                    line-height: 25px
+                    letter-spacing: 0.23619px
+                    color: #878D9D
+                &-place
+                    display: flex
+                    column-gap: 5px
+                    font-size: 16px
+                    line-height: 25px
+                    letter-spacing: 0.23619px
+                    color: #878D9D
+            &-raiting
+                // background: yellow
+                width: 90px
+                margin-right: 22px
                 display: flex
-                column-gap: 5px
+                justify-content: center
+                align-items: center
+                cursor: pointer
+            &-date
+                width: 148px
                 font-size: 16px
                 line-height: 25px
+                display: flex
+                align-items: flex-end
+                text-align: right
                 letter-spacing: 0.23619px
                 color: #878D9D
-        &-raiting
-            width: 90px
-            margin-right: 22px
-            display: flex
-            justify-content: center
-            align-items: center
-            cursor: pointer
-        &-date
-            width: 148px
-            font-size: 16px
-            line-height: 25px
-            display: flex
-            align-items: flex-end
-            text-align: right
-            letter-spacing: 0.23619px
-            color: #878D9D
-            position: relative
-            &-icon
-                position: absolute
-                top: 0
-                right: 0
-                cursor: pointer
+                position: relative
+                &-icon
+                    position: absolute
+                    top: 0
+                    right: 0
+                    cursor: pointer
 .pagesPanel
     width: 515px
     background: #FFFFFF
@@ -109,3 +117,93 @@
         width: 27px
         height: 3px
         background: #5876C5
+
+@media (max-width: 2561px)
+    .jobsList
+        max-width: 1400px
+        margin: 0 auto
+@media (max-width: 1200px)
+    .jobsList__item-main-textbox
+        width: 100%
+    .jobsList__item-main-date-icon
+        display: none
+@media (max-width: 700px)
+    .pagesPanel
+        width: 100%
+    .jobsList__item
+        height: auto
+        &-main
+            &-textbox
+                order: 3
+                margin-top: 14px
+            &-raiting
+                order: 1
+            &-date
+                order: 2
+                margin-left: auto
+                margin-top: -20px
+                justify-content: right
+                svg
+                    display: none
+@media (max-width: 450px)
+    .container
+        padding: 5px
+    .jobsList__item
+        height: 206px
+        padding: 15px
+        &-photo
+            width: 65px
+            margin-right: 19px
+            margin-top: 45px
+            img
+                width: 65px
+                height: 65px
+        &-main
+            &-textbox
+                &-title
+                    font-size: 18px
+                    font-weight: 400
+                    line-height: 24px
+                    letter-spacing: -0.5625px
+                    color: #3A4562
+                &-subtitle
+                    font-weight: 400
+                    font-size: 16px
+                    line-height: 25px
+                    letter-spacing: 0.23619px
+                    color: #878D9D
+                &-place
+                    font-size: 16px
+                    line-height: 25px
+                    letter-spacing: 0.23619px
+                    color: #878D9D
+            &-raiting
+                justify-content: start
+            &-date
+                margin-top: 0px
+                font-weight: 300
+                font-size: 14px
+                line-height: 17px
+                letter-spacing: 0.206667px
+                color: #878D9D
+@media (max-width: 410px)
+    .jobsList__item
+        height: auto
+        padding: 7px
+        align-items: center
+        &-photo
+            margin: 0 15px 0 0
+        &-main
+            &-textbox
+                &-title
+                    font-size: 16px
+                &-subtitle
+                    font-size: 14px
+                &-place
+                    font-size: 14px
+            &-date
+                margin-top: 10px
+                width: 100%
+                justify-content: start
+
+// зірки робити меншим розміром, в джс прописати залежно від екрану клас ставити інший у фонт осом
