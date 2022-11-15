@@ -1,43 +1,54 @@
+import ClipLoader from "react-spinners/ClipLoader";
+
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useHttp } from "../hooks/http.hook";
 import Link from "next/link";
-import ClipLoader from "react-spinners/ClipLoader";
+import { useSelector, useDispatch } from "react-redux";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { mainPage_getJobsList } from "../components/pages/mainPageSlice";
 
-import { jobs } from "../../zapaska.js";
+// import { jobs } from "../../zapaska.js";
 // компоненти
-import PagesPanel from "../components/PagesPanel";
+import PagesPanel from "../components/common/paginationPanel/PagesPanel";
 
-// чи працює карта на мобілках 
+// чи працює карта на мобілках
 // ДЕПЛОЙ, ЧИ НОРМАЛЬНО ПРАЦЮЄ ЯКЩО ПРЯМО ОНОВИТИ СТОРІНКУ З РОБОТОЮ
 
 // оскільки дані при кожному новому запиті приходять різні, то обрав getServerSideProps, а не getStaticProps
-// export async function getServerSideProps(context) {
-//     const { request } = useHttp();
+export async function getServerSideProps(context) {
+    const { request } = useHttp();
 
-//     const res = await request(
-//         `https://api.json-generator.com/templates/ZM1r0eic3XEy/data?access_token=wm3gg940gy0xek1ld98uaizhz83c6rh2sir9f9fu`
-//     );
-//     return {
-//         props: { jobs: res },
-//     };
-// }
+    const res = await request(
+        `https://api.json-generator.com/templates/ZM1r0eic3XEy/data?access_token=wm3gg940gy0xek1ld98uaizhz83c6rh2sir9f9fu`
+    );
+    return {
+        props: { jobs: res },
+    };
+}
 
-// Posted 2 days ago поміняти на функцію
-export default function Home({ jobsNorm }) {
-    // взяти jobs юзефект перший і записати в стор редакс, щоб не робити запит знову на сторінці айді
+export default function Home({ jobs }) {
+    const dispatch = useDispatch();
 
-    // лічильник для того, щоб показати не всі роботи відразу, а по кілька робіт на сторінці (встановив по 5 пропозицій робіт на одній сторінці)
-    const [jobStart, setJobStart] = useState(0);
+    const jobStart = useSelector(state => state.pagesPanelSlice.pageStart);
+
+    // визначає скільки років пройшло з моменту опублікування оголошення про роботу (у форматі UTC, як і дані, які приходять в апі)
+    const getNumberOfDays = publishedDate => {
+        const timeFrom = Date.parse(new Date()) - Date.parse(publishedDate);
+        const days = Math.floor(timeFrom / (1000 * 60 * 60 * 24));
+        const years = days / 365;
+        return Math.floor(years);
+    };
+
+    useEffect(() => {
+        dispatch(mainPage_getJobsList(jobs));
+    }, []);
 
     const showJobsList =
         jobs.length > 0 ? (
-            jobs.slice(jobStart, jobStart + 5).map(item => {
+            jobs.slice(jobStart, jobStart + 5).map((item, index) => {
                 return (
-                    <li className='jobsList__item'>
+                    <li key={index} className='jobsList__item'>
                         <div className='jobsList__item-photo'>
                             {/* <Image width={85} height={85} src={item.pictures[0]} /> */}
                             <img src={item.pictures[2]} alt='job-photo' />
@@ -56,11 +67,11 @@ export default function Home({ jobsNorm }) {
                                 </div>
                             </div>
                             <div className='jobsList__item-main-raiting'>
-                                <FontAwesomeIcon icon={faStar} className='fa-regular'></FontAwesomeIcon>
-                                <FontAwesomeIcon icon={faStar} className='fa-regular'></FontAwesomeIcon>
-                                <FontAwesomeIcon icon={faStar} className='fa-regular'></FontAwesomeIcon>
-                                <FontAwesomeIcon icon={faStar} className='fa-regular'></FontAwesomeIcon>
-                                <FontAwesomeIcon icon={faStar} className='fa-regular'></FontAwesomeIcon>
+                                <img src='/star-icon.svg' className='star-icon' alt='star-icon' />
+                                <img src='/star-icon.svg' className='star-icon' alt='star-icon' />
+                                <img src='/star-icon.svg' className='star-icon' alt='star-icon' />
+                                <img src='/star-icon.svg' className='star-icon' alt='star-icon' />
+                                <img src='/star-icon.svg' className='star-icon' alt='star-icon' />
                             </div>
                             <div className='jobsList__item-main-date'>
                                 <img
@@ -68,7 +79,7 @@ export default function Home({ jobsNorm }) {
                                     className='jobsList__item-main-date-icon'
                                     alt='bookmark-icon'
                                 />
-                                <p>Posted 2 days ago</p>
+                                <p>Posted {getNumberOfDays(item.createdAt)} years ago</p>
                             </div>
                         </div>
                     </li>
@@ -84,7 +95,7 @@ export default function Home({ jobsNorm }) {
         <div>
             <div className='container'>
                 <ul className='jobsList'>{showJobsList}</ul>
-                <PagesPanel jobStart={jobStart} setJobStart={setJobStart} jobs={jobs} />
+                <PagesPanel offset={5} />
             </div>
         </div>
     );

@@ -1,24 +1,26 @@
+// стилі, картинки
+import ClipLoader from "react-spinners/ClipLoader";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft, faLocationPin } from "@fortawesome/free-solid-svg-icons";
 // хуки
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useHttp } from "../hooks/http.hook";
+import { useSelector } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
-import ClipLoader from "react-spinners/ClipLoader";
-import "mapbox-gl/dist/mapbox-gl.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faLocationPin } from "@fortawesome/free-solid-svg-icons";
 // компоненти
-import MapComponent from "../components/Map.js";
+import MapComponent from "../components/common/map/Map.js";
 
-import { jobs } from "../../zapaska.js";
+// import { jobs } from "../../zapaska.js";
 
-// 404 сторінку створити
 const Job = () => {
     const router = useRouter();
     const { id } = router.query;
 
     const { request } = useHttp();
+
+    const jobs = useSelector(state => state.mainPageSlice.jobsList);
 
     const [job, setJob] = useState(null);
     const [numberOfDays, setNumberOfDays] = useState(null);
@@ -31,7 +33,7 @@ const Job = () => {
         setJob(arr.filter(item => item.id === id));
     };
 
-    // показує скільки днів пройшло з моменту опублікування оголошення про роботу (у форматі UTC, як і дані, які приходять в апі)
+    // визначає скільки днів пройшло з моменту опублікування оголошення про роботу (у форматі UTC, як і дані, які приходять в апі)
     const getNumberOfDays = publishedDate => {
         const timeFrom = Date.parse(new Date()) - Date.parse(publishedDate);
         const days = Math.floor(timeFrom / (1000 * 60 * 60 * 24));
@@ -39,9 +41,6 @@ const Job = () => {
     };
 
     useEffect(() => {
-        // request(
-        //     "https://api.json-generator.com/templates/ZM1r0eic3XEy/data?access_token=wm3gg940gy0xek1ld98uaizhz83c6rh2sir9f9fu"
-        // ).then(data => findJob(data));
         findJob(jobs);
     }, []);
 

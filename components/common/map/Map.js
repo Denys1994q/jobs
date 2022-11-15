@@ -1,4 +1,5 @@
 import Map, { Marker } from "react-map-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
 
 const MapComponent = ({ lat, long }) => {
     return (

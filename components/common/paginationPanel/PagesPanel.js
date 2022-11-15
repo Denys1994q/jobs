@@ -1,24 +1,33 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
-const PagesPanel = ({ jobStart, setJobStart, jobs }) => {
+import { useSelector, useDispatch } from "react-redux";
+import { pagesPanel_plusPageStart, pagesPanel_minusPageStart, pagesPanel_showChosenPageStart } from "./pagesPanelSlice";
+
+// пагінація - по offset пропозицій робіт на одній сторінці
+const PagesPanel = ({ offset }) => {
+    const dispatch = useDispatch();
+
+    const jobs = useSelector(state => state.mainPageSlice.jobsList);
+    const jobStart = useSelector(state => state.pagesPanelSlice.pageStart);
+
     // показуємо наступну сторінку
     const showNextPage = () => {
         if (jobStart !== jobs.length - 5) {
-            setJobStart(old => old + 5);
+            dispatch(pagesPanel_plusPageStart(offset));
         }
     };
 
     // показуємо попередню сторінку
     const showPrevPage = () => {
         if (jobStart !== 0) {
-            setJobStart(old => old - 5);
+            dispatch(pagesPanel_minusPageStart(offset));
         }
     };
 
     // показуємо ту сторінку, по якій клікнув користувач
     const showChosenPage = pageNumber => {
-        setJobStart(pageNumber * 5);
+        dispatch(pagesPanel_showChosenPageStart(pageNumber * offset));
     };
 
     // показуємо по 5 оголошень роботи на сторінці. Зараз у масив приходить з северу 20 робіт, тому створюється 4 li з цифрами.
@@ -28,6 +37,7 @@ const PagesPanel = ({ jobStart, setJobStart, jobs }) => {
                   if (index < jobs.length / 5) {
                       return (
                           <li
+                              key={index}
                               onClick={() => showChosenPage(index)}
                               className={index === jobStart / 5 ? "activePageNumber" : null}>
                               {index + 1}
