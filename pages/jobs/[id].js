@@ -150,16 +150,20 @@ const Job = ({ job }) => {
 
                 <div className='job__right'>
                     <div className='job__right-infocard'>
-                        <p className='job__right-infocard-name'>{job[0].name}</p>
-                        <p className='job__right-infocard-address'>
-                            <img src='/location-icon-dark.svg' alt='location-icon-dark' />
-                            <span>{job[0].address}</span>
-                        </p>
-                        <p className='job__right-infocard-phone'>{job[0].phone},</p>
-                        <p className='job__right-infocard-email'>{job[0].email}</p>
+                        <div className='job__right-infocard-main'>
+                            <p className='job__right-infocard-main-name'>{job[0].name}</p>
+                            <p className='job__right-infocard-main-address'>
+                                <img src='/location-icon-dark.svg' alt='location-icon-dark' />
+                                <span>{job[0].address}</span>
+                            </p>
+                            <p className='job__right-infocard-main-phone'>{job[0].phone},</p>
+                            <p className='job__right-infocard-main-email'>{job[0].email}</p>
+                        </div>
+                        <div className='job__right-infocard-fake'></div>
+                    </div>
+                    <div className='job__right-map'>
                         <MapComponent lat={job[0].location.lat} long={job[0].location.long} />
                     </div>
-                    <div className='fake'></div>
                 </div>
             </div>
             <Link href='/'>
