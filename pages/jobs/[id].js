@@ -9,8 +9,6 @@ import Link from "next/link";
 // компоненти
 import MapComponent from "../../components/common/map/Map.js";
 
-// import { jobs } from "../../zapaska.js";
-
 export const getStaticPaths = async () => {
     const { request } = useHttp();
 
@@ -47,10 +45,8 @@ export const getStaticProps = async context => {
     };
 };
 
-// СПІНЕР НЕ ПРАЦЮЄ
-// чи потрібна умова взагалі про джоб
 const Job = ({ job }) => {
-    // скільки днів з моменту опублікування роботи
+    // скільки днів пройшло з моменту опублікування роботи
     const [numberOfDays, setNumberOfDays] = useState(null);
     // розбивка на абзаци блоку description
     const [descriptionStart, setDescriptionStart] = useState(null);
@@ -65,23 +61,19 @@ const Job = ({ job }) => {
     };
 
     useEffect(() => {
-        if (job && job.length > 0) {
-            getNumberOfDays(job[0].createdAt);
+        getNumberOfDays(job[0].createdAt);
 
-            // розбивка на абзаци
-            const ind = job[0].description.indexOf("Responsopilities:");
-            setDescriptionStart(job[0].description.substring(0, ind));
+        // розбивка на абзаци
+        const ind = job[0].description.indexOf("Responsopilities:");
+        setDescriptionStart(job[0].description.substring(0, ind));
 
-            const ind2 = job[0].description.indexOf("Compensation & Benefits:");
-            setDescriptionResponsibilities(job[0].description.substring(ind, ind2).replace("Responsopilities:", ""));
+        const ind2 = job[0].description.indexOf("Compensation & Benefits:");
+        setDescriptionResponsibilities(job[0].description.substring(ind, ind2).replace("Responsopilities:", ""));
 
-            setDescriptionCompensation(
-                job[0].description
-                    .substring(ind2, job[0].description.length - 1)
-                    .replace("Compensation & Benefits:", "")
-            );
-        }
-    }, [job]);
+        setDescriptionCompensation(
+            job[0].description.substring(ind2, job[0].description.length - 1).replace("Compensation & Benefits:", "")
+        );
+    }, []);
 
     return (
         <>
@@ -148,7 +140,6 @@ const Job = ({ job }) => {
                                             height={133}
                                             className='attached-photo'
                                             alt={item}></Image>
-                                        {/* <img className='attached-photo' src={item} alt='' /> */}
                                     </li>
                                 );
                             })}

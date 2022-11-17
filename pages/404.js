@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
@@ -14,12 +13,7 @@ const NotFoundPage = () => {
     return (
         <div className='notFoundPage'>
             <h1>Сторінка не знайдена</h1>
-            <h2>
-                Повернення на{" "}
-                <Link href='/'>
-                    <a>головну сторінку</a> через 5 секунд...
-                </Link>
-            </h2>
+            <h2>Повернення на головну сторінку через 5 секунд...</h2>
         </div>
     );
 };

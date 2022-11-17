@@ -1,18 +1,14 @@
-import ClipLoader from "react-spinners/ClipLoader";
-
+// хуки
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useHttp } from "../hooks/http.hook";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
-
 import { mainPage_getJobsList } from "../components/pages/mainPageSlice";
-
-// import { jobs } from "../../zapaska.js";
 // компоненти
 import PagesPanel from "../components/common/paginationPanel/PagesPanel";
 
-// обрав getStaticProps, тому що масив (крім фото) приходить той самий. Тобто, вирішив, що немає потреби оновлювати дані при кожному запиті (як в getServerSideProps). Плюс можливість отримати динамічні роути за рахунокgetStaticProps
+// обрав getStaticProps, а не getServerSideProps тому що масив з серверу приходить один і той самий. Плюс можливість отримати динамічні роути за рахунок getStaticPaths
 export async function getStaticProps(context) {
     const { request } = useHttp();
 
@@ -39,58 +35,45 @@ export default function Home({ jobs }) {
         return Math.floor(years);
     };
 
+    // закидаю в store масив jobs. Щоб при потребі використовувати його в інших компонентах
     useEffect(() => {
         dispatch(mainPage_getJobsList(jobs));
     }, []);
 
-    const showJobsList =
-        jobs.length > 0 ? (
-            jobs.slice(jobStart, jobStart + offset).map((item, index) => {
-                return (
-                    <li key={index} className='jobsList__item'>
-                        <div className='jobsList__item-photo'>
-                            {/* <Image width={85} height={85} src={item.pictures[0]} /> */}
-                            <img src={item.pictures[2]} alt='job-photo' />
+    const showJobsList = jobs.slice(jobStart, jobStart + offset).map((item, index) => {
+        return (
+            <li key={index} className='jobsList__item'>
+                <div className='jobsList__item-photo'>
+                    <Image src={item.pictures[0]} width={85} height={85} alt='job-photo' />
+                </div>
+                <div className='jobsList__item-main'>
+                    <div className='jobsList__item-main-textbox'>
+                        <div className='jobsList__item-main-textbox-title'>
+                            <Link href={`/jobs/${item.id}`}>
+                                <div>{item.title}</div>
+                            </Link>
                         </div>
-                        <div className='jobsList__item-main'>
-                            <div className='jobsList__item-main-textbox'>
-                                <div className='jobsList__item-main-textbox-title'>
-                                    <Link href={`/jobs/${item.id}`}>
-                                        <div>{item.title}</div>
-                                    </Link>
-                                </div>
-                                <div className='jobsList__item-main-textbox-subtitle'>
-                                    Department name • {item.name}
-                                </div>
-                                <div className='jobsList__item-main-textbox-place'>
-                                    <img src='/location-icon.svg' alt='bookmark-icon' />
-                                    <p> Vienna, Austria</p>
-                                </div>
-                            </div>
-                            <div className='jobsList__item-main-raiting'>
-                                <img src='/star-icon.svg' className='star-icon' alt='star-icon' />
-                                <img src='/star-icon.svg' className='star-icon' alt='star-icon' />
-                                <img src='/star-icon.svg' className='star-icon' alt='star-icon' />
-                                <img src='/star-icon.svg' className='star-icon' alt='star-icon' />
-                                <img src='/star-icon.svg' className='star-icon' alt='star-icon' />
-                            </div>
-                            <div className='jobsList__item-main-date'>
-                                <img
-                                    src='/bookmark-icon.svg'
-                                    className='jobsList__item-main-date-icon'
-                                    alt='bookmark-icon'
-                                />
-                                <p>Posted {getNumberOfDays(item.createdAt)} years ago</p>
-                            </div>
+                        <div className='jobsList__item-main-textbox-subtitle'>Department name • {item.name}</div>
+                        <div className='jobsList__item-main-textbox-place'>
+                            <img src='/location-icon.svg' alt='bookmark-icon' />
+                            <p> Vienna, Austria</p>
                         </div>
-                    </li>
-                );
-            })
-        ) : (
-            <div className='loading'>
-                <ClipLoader color={"#fd7d24"} size={15} />
-            </div>
+                    </div>
+                    <div className='jobsList__item-main-raiting'>
+                        <img src='/star-icon.svg' className='star-icon' alt='star-icon' />
+                        <img src='/star-icon.svg' className='star-icon' alt='star-icon' />
+                        <img src='/star-icon.svg' className='star-icon' alt='star-icon' />
+                        <img src='/star-icon.svg' className='star-icon' alt='star-icon' />
+                        <img src='/star-icon.svg' className='star-icon' alt='star-icon' />
+                    </div>
+                    <div className='jobsList__item-main-date'>
+                        <img src='/bookmark-icon.svg' className='jobsList__item-main-date-icon' alt='bookmark-icon' />
+                        <p>Posted {getNumberOfDays(item.createdAt)} years ago</p>
+                    </div>
+                </div>
+            </li>
         );
+    });
 
     return (
         <div>
