@@ -14,7 +14,7 @@ const MapComponent = ({ lat, long }) => {
                 mapStyle='mapbox://styles/mapbox/dark-v10'
                 mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}>
                 <Marker longitude={long} latitude={lat} anchor='bottom-left'>
-                    <img src='/Location.png' />
+                    <img src='/Location.png' alt='location-icon' />
                 </Marker>
             </Map>
         </div>

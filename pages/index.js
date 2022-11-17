@@ -12,11 +12,8 @@ import { mainPage_getJobsList } from "../components/pages/mainPageSlice";
 // компоненти
 import PagesPanel from "../components/common/paginationPanel/PagesPanel";
 
-// чи працює карта на мобілках
-// ДЕПЛОЙ, ЧИ НОРМАЛЬНО ПРАЦЮЄ ЯКЩО ПРЯМО ОНОВИТИ СТОРІНКУ З РОБОТОЮ
-
-// оскільки дані при кожному новому запиті приходять різні, то обрав getServerSideProps, а не getStaticProps
-export async function getServerSideProps(context) {
+// обрав getStaticProps, тому що масив (крім фото) приходить той самий. Тобто, вирішив, що немає потреби оновлювати дані при кожному запиті (як в getServerSideProps). Плюс можливість отримати динамічні роути за рахунокgetStaticProps
+export async function getStaticProps(context) {
     const { request } = useHttp();
 
     const res = await request(
@@ -31,6 +28,8 @@ export default function Home({ jobs }) {
     const dispatch = useDispatch();
 
     const jobStart = useSelector(state => state.pagesPanelSlice.pageStart);
+    // відображати на сторінці по offset робіт (зараз по 5)
+    const offset = 5;
 
     // визначає скільки років пройшло з моменту опублікування оголошення про роботу (у форматі UTC, як і дані, які приходять в апі)
     const getNumberOfDays = publishedDate => {
@@ -46,7 +45,7 @@ export default function Home({ jobs }) {
 
     const showJobsList =
         jobs.length > 0 ? (
-            jobs.slice(jobStart, jobStart + 5).map((item, index) => {
+            jobs.slice(jobStart, jobStart + offset).map((item, index) => {
                 return (
                     <li key={index} className='jobsList__item'>
                         <div className='jobsList__item-photo'>
@@ -56,7 +55,9 @@ export default function Home({ jobs }) {
                         <div className='jobsList__item-main'>
                             <div className='jobsList__item-main-textbox'>
                                 <div className='jobsList__item-main-textbox-title'>
-                                    <Link href={`/${item.id}`}>{item.title}</Link>
+                                    <Link href={`/jobs/${item.id}`}>
+                                        <div>{item.title}</div>
+                                    </Link>
                                 </div>
                                 <div className='jobsList__item-main-textbox-subtitle'>
                                     Department name • {item.name}
@@ -95,7 +96,7 @@ export default function Home({ jobs }) {
         <div>
             <div className='container'>
                 <ul className='jobsList'>{showJobsList}</ul>
-                <PagesPanel offset={5} />
+                <PagesPanel offset={offset} />
             </div>
         </div>
     );

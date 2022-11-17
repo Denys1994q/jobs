@@ -13,7 +13,7 @@ const PagesPanel = ({ offset }) => {
 
     // показуємо наступну сторінку
     const showNextPage = () => {
-        if (jobStart !== jobs.length - 5) {
+        if (jobStart !== jobs.length - offset) {
             dispatch(pagesPanel_plusPageStart(offset));
         }
     };
@@ -30,16 +30,15 @@ const PagesPanel = ({ offset }) => {
         dispatch(pagesPanel_showChosenPageStart(pageNumber * offset));
     };
 
-    // показуємо по 5 оголошень роботи на сторінці. Зараз у масив приходить з северу 20 робіт, тому створюється 4 li з цифрами.
     const showPagesNumbers =
         jobs.length > 0
             ? jobs.map((item, index) => {
-                  if (index < jobs.length / 5) {
+                  if (index < jobs.length / offset) {
                       return (
                           <li
                               key={index}
                               onClick={() => showChosenPage(index)}
-                              className={index === jobStart / 5 ? "activePageNumber" : null}>
+                              className={index === jobStart / offset ? "activePageNumber" : null}>
                               {index + 1}
                           </li>
                       );
@@ -58,7 +57,7 @@ const PagesPanel = ({ offset }) => {
                 {showPagesNumbers}
                 <FontAwesomeIcon
                     icon={faChevronRight}
-                    style={{ color: "#7D859C", opacity: jobStart !== jobs.length - 5 ? "1" : ".2" }}
+                    style={{ color: "#7D859C", opacity: jobStart !== jobs.length - offset ? "1" : ".2" }}
                     onClick={() => showNextPage()}
                     className='fa-2x pagesPanel-rightArrow'></FontAwesomeIcon>
             </ul>
