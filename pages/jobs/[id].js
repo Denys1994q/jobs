@@ -1,12 +1,9 @@
 // стилі, картинки
-import ClipLoader from "react-spinners/ClipLoader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faLocationPin } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 // хуки
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useHttp } from "../../hooks/http.hook";
-import { useSelector } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
 // компоненти
@@ -145,8 +142,13 @@ const Job = ({ job }) => {
                             {job[0].pictures.map((item, i) => {
                                 return (
                                     <li key={i}>
-                                        {/* <Image src={item} width={200} height={133}></Image> */}
-                                        <img className='attached-photo' src={item} alt='' />
+                                        <Image
+                                            src={item}
+                                            width={200}
+                                            height={133}
+                                            className='attached-photo'
+                                            alt={item}></Image>
+                                        {/* <img className='attached-photo' src={item} alt='' /> */}
                                     </li>
                                 );
                             })}
