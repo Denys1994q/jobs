@@ -51,13 +51,18 @@ const PagesPanel = ({ offset }) => {
             <ul>
                 <FontAwesomeIcon
                     icon={faChevronLeft}
-                    style={{ color: "#7D859C", opacity: jobStart !== 0 ? "1" : ".2" }}
+                    style={{ color: "#7D859C", width: 15, height: 18, opacity: jobStart !== 0 ? "1" : ".2" }}
                     onClick={() => showPrevPage()}
-                    className='fa-2x pagesPanel-leftArrow'></FontAwesomeIcon>
+                    className='pagesPanel-leftArrow'></FontAwesomeIcon>
                 {showPagesNumbers}
                 <FontAwesomeIcon
                     icon={faChevronRight}
-                    style={{ color: "#7D859C", opacity: jobStart !== jobs.length - offset ? "1" : ".2" }}
+                    style={{
+                        color: "#7D859C",
+                        width: 15,
+                        height: 18,
+                        opacity: jobStart !== jobs.length - offset ? "1" : ".2",
+                    }}
                     onClick={() => showNextPage()}
                     className='fa-2x pagesPanel-rightArrow'></FontAwesomeIcon>
             </ul>
